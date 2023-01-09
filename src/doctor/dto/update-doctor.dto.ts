@@ -1,5 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
-import { IsDate, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsDate, IsNumber, IsString } from 'class-validator';
+import { Specialty } from 'src/specialty/entities/specialty.entity';
 import { CreateDoctorDto } from './create-doctor.dto';
 
 export class UpdateDoctorDto extends PartialType(CreateDoctorDto) {
@@ -30,11 +31,12 @@ export class UpdateDoctorDto extends PartialType(CreateDoctorDto) {
   @IsString()
   state: string;
 
+  @IsArray()
   @IsString()
-  specialty: string;
+  specialty: Specialty[];
 
-  @IsString()
-  specialty2: string;
+  // @IsString()
+  // specialty2: string;
 
   @IsDate()
   deletedAt: Date;

@@ -1,7 +1,10 @@
+import { Specialty } from 'src/specialty/entities/specialty.entity';
 import {
   Column,
   DeleteDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -37,11 +40,15 @@ export class Doctor {
   @Column({ default: null })
   state: string;
 
-  @Column({ default: null })
-  specialty: string;
+  @ManyToMany(() => Specialty, { eager: true })
+  @JoinTable()
+  specialty: Specialty[];
 
-  @Column({ default: null })
-  specialty2: string;
+  // @Column({ default: null })
+  // specialty: string;
+
+  // @Column({ default: null })
+  // specialty2: string;
 
   @DeleteDateColumn({ default: null })
   deletedAt: Date;
@@ -58,6 +65,5 @@ export class Doctor {
     this.city = doctor?.city;
     this.state = doctor?.state;
     this.specialty = doctor?.specialty;
-    this.specialty2 = doctor?.specialty2;
   }
 }

@@ -1,4 +1,5 @@
-import { IsDate, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsDate, IsNumber, IsString } from 'class-validator';
+import { Specialty } from 'src/specialty/entities/specialty.entity';
 
 export class CreateDoctorDto {
   @IsString()
@@ -28,11 +29,12 @@ export class CreateDoctorDto {
   @IsString()
   state: string;
 
+  @IsArray()
   @IsString()
-  specialty: string;
+  specialty: Specialty[];
 
-  @IsString()
-  specialty2: string;
+  // @IsString()
+  // specialty2: string;
 
   @IsDate()
   deletedAt: Date;

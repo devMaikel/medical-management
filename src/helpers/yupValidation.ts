@@ -13,9 +13,16 @@ export class yupValidation {
       phone: yup.number().integer().positive().optional(),
       cell: yup.number().integer().positive().required(),
       cep: yup.number().integer().positive().required(),
-      specialty: yup.string().required(),
-      specialty2: yup.string().required(),
+      // specialty: yup.string().required(),
+      specialty: yup
+        .array()
+        .of(yup.object().shape({ id: yup.number() }))
+        .min(2),
     });
     return doctor;
   }
+}
+
+{
+  id: yup.number();
 }

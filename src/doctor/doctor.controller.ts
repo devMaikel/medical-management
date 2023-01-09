@@ -8,12 +8,14 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { yupValidation } from '../helpers/yupValidation';
 import { DoctorService } from './doctor.service';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
 
 @Controller('doctor')
+@ApiTags('doctor')
 export class DoctorController {
   constructor(private readonly doctorService: DoctorService) {}
   yupValidator: yupValidation = new yupValidation();

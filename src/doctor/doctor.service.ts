@@ -19,8 +19,8 @@ export class DoctorService {
     const cepRequester = new cepRequest();
     const doctorWithCep = await cepRequester.getAddress(createDoctorDto);
     if (typeof doctorWithCep === 'string') {
-      throw new HttpException('CEP inválido', 400, {
-        cause: new Error('CEP inválido'),
+      throw new HttpException('Invalid CEP', 400, {
+        cause: new Error('Invalid CEP'),
       });
     }
     const schema = await this.yupValidator.validateDoctor();
@@ -31,11 +31,20 @@ export class DoctorService {
         cause: new Error(err),
       });
     }
+    if (createDoctorDto.specialty[0] === createDoctorDto.specialty[1]) {
+      throw new HttpException('Specialties cannot be the same', 400, {
+        cause: new Error('Specialties cannot be the same'),
+      });
+    }
     return await this.doctorRepository.save(createDoctorDto);
   }
 
   async findAll() {
-    return await this.doctorRepository.find({ where: { deletedAt: null } });
+    // return await this.doctorRepository.find({ where: { deletedAt: null } });
+    return await this.doctorRepository.find({
+      relations: { specialty: true },
+      where: { deletedAt: null },
+    });
   }
 
   async findOne(id: number) {
@@ -59,7 +68,7 @@ export class DoctorService {
     if (validParams.includes(searchBy)) {
       if (searchBy === 'specialty') {
         return this.doctorRepository.find({
-          where: [{ specialty: param }, { specialty2: param }],
+          where: { specialty: { name: param } },
         });
       }
       return await this.doctorRepository.find({ where: { [searchBy]: param } });
