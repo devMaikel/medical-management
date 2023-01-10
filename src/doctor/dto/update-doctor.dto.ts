@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
 import { IsArray, IsDate, IsNumber, IsString } from 'class-validator';
-import { Specialty } from 'src/specialty/entities/specialty.entity';
+import { Specialty } from '../../specialty/entities/specialty.entity';
 import { CreateDoctorDto } from './create-doctor.dto';
 
 export class UpdateDoctorDto extends PartialType(CreateDoctorDto) {

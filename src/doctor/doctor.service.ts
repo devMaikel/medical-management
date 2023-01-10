@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
 import { Doctor } from './entities/doctor.entity';
+import { Specialty } from 'src/specialty/entities/specialty.entity';
 
 @Injectable()
 export class DoctorService {
@@ -48,7 +49,14 @@ export class DoctorService {
   }
 
   async findOne(id: number) {
-    return await this.doctorRepository.findOne({ where: { id } });
+    // return await this.doctorRepository.findOne({
+    //   relations: { specialty: true },
+    //   where: { id },
+    // });
+    return await this.doctorRepository.findOne({
+      relations: { specialty: true },
+      where: { id },
+    });
   }
 
   async findByParam(searchBy: string, param: string) {
@@ -67,20 +75,25 @@ export class DoctorService {
     ];
     if (validParams.includes(searchBy)) {
       if (searchBy === 'specialty') {
-        return this.doctorRepository.find({
-          where: { specialty: { name: param } },
+        return await this.doctorRepository.find({
+          where: { specialty: [{ id: +param }] },
+          // where: { specialty: ArrayContains([{ id: +param }]) },
+          relations: { specialty: true },
         });
       }
-      return await this.doctorRepository.find({ where: { [searchBy]: param } });
+      return await this.doctorRepository.find({
+        relations: { specialty: true },
+        where: { [searchBy]: param },
+      });
     }
     throw new HttpException('Invalid search field', 400, {
       cause: new Error('Invalid search field'),
     });
   }
 
-  async update(id: number, updateDoctorDto: UpdateDoctorDto) {
+  async update(id: number, createDoctorDto: UpdateDoctorDto) {
     const cepRequester = new cepRequest();
-    const doctorWithCep = await cepRequester.getAddress(updateDoctorDto);
+    const doctorWithCep = await cepRequester.getAddress(createDoctorDto);
     if (typeof doctorWithCep === 'string') {
       throw new HttpException('CEP inválido', 400, {
         cause: new Error('CEP inválido'),
@@ -94,7 +107,10 @@ export class DoctorService {
         cause: new Error(err),
       });
     }
-    return await this.doctorRepository.update(id, updateDoctorDto);
+    const record = createDoctorDto as Doctor;
+    record.specialty = createDoctorDto.specialty.map((id) => id as Specialty);
+    record.id = id;
+    return await this.create(record);
   }
 
   async softDel(id: number) {

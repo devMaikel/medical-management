@@ -1,4 +1,5 @@
-import { Specialty } from 'src/specialty/entities/specialty.entity';
+import { ApiProperty } from '@nestjs/swagger';
+import { Specialty } from '../../specialty/entities/specialty.entity';
 import {
   Column,
   DeleteDateColumn,
@@ -11,37 +12,48 @@ import {
 @Entity()
 export class Doctor {
   @PrimaryGeneratedColumn()
+  @ApiProperty()
   id: number;
 
   @Column({ length: 120 })
+  @ApiProperty()
   name: string;
 
   @Column({ type: 'bigint' })
+  @ApiProperty()
   crm: number;
 
   @Column({ type: 'bigint', default: null })
+  @ApiProperty()
   phone: number;
 
   @Column({ type: 'bigint' })
+  @ApiProperty()
   cell: number;
 
   @Column({ default: null })
+  @ApiProperty()
   cep: string;
 
   @Column({ default: null })
+  @ApiProperty()
   public_place: string;
 
   @Column({ default: null })
+  @ApiProperty()
   district: string;
 
   @Column({ default: null })
+  @ApiProperty()
   city: string;
 
   @Column({ default: null })
+  @ApiProperty()
   state: string;
 
   @ManyToMany(() => Specialty, { eager: true })
   @JoinTable()
+  @ApiProperty({ type: Specialty, isArray: true })
   specialty: Specialty[];
 
   // @Column({ default: null })
@@ -51,6 +63,7 @@ export class Doctor {
   // specialty2: string;
 
   @DeleteDateColumn({ default: null })
+  @ApiProperty()
   deletedAt: Date;
 
   constructor(doctor?: Partial<Doctor>) {

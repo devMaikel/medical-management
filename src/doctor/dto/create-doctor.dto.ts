@@ -1,20 +1,27 @@
-import { IsArray, IsDate, IsNumber, IsString } from 'class-validator';
-import { Specialty } from 'src/specialty/entities/specialty.entity';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsArray, IsDate, IsNumber, IsObject, IsString } from 'class-validator';
+import { Specialty } from '../../specialty/entities/specialty.entity';
 
 export class CreateDoctorDto {
   @IsString()
+  @ApiProperty()
   name: string;
 
   @IsNumber()
+  @ApiProperty()
   crm: number;
 
   @IsNumber()
+  @ApiProperty()
+  @ApiPropertyOptional()
   phone: number;
 
   @IsNumber()
+  @ApiProperty()
   cell: number;
 
   @IsString()
+  @ApiProperty()
   cep: string;
 
   @IsString()
@@ -30,11 +37,9 @@ export class CreateDoctorDto {
   state: string;
 
   @IsArray()
-  @IsString()
+  @IsObject()
+  @ApiProperty({ type: Specialty, isArray: true })
   specialty: Specialty[];
-
-  // @IsString()
-  // specialty2: string;
 
   @IsDate()
   deletedAt: Date;

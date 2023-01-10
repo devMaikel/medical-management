@@ -17,7 +17,8 @@ export class yupValidation {
       specialty: yup
         .array()
         .of(yup.object().shape({ id: yup.number() }))
-        .min(2),
+        .min(2)
+        .required(),
     });
     return doctor;
   }

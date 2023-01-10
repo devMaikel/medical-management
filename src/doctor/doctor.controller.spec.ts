@@ -18,8 +18,10 @@ const allDoctorsMock: Doctor[] = [
     district: 'Nossa Senhora de Nazaré',
     public_place: 'Avenida Lima e Silva',
     state: 'RN',
-    specialty: 'Cardiologia clínca',
-    specialty2: 'Cirurgia de tórax',
+    specialty: [
+      { id: 1, name: 'Cardiologia clínca' },
+      { id: 2, name: 'Cirurgia de tórax' },
+    ],
     deletedAt: null,
   }),
   new Doctor({
@@ -33,8 +35,10 @@ const allDoctorsMock: Doctor[] = [
     district: 'Nossa Senhora de Nazaré',
     public_place: 'Avenida Lima e Silva',
     state: 'RN',
-    specialty: 'Cardiologia clínca',
-    specialty2: 'Cirurgia de tórax',
+    specialty: [
+      { id: 1, name: 'Cardiologia clínca' },
+      { id: 2, name: 'Cirurgia de tórax' },
+    ],
     deletedAt: null,
   }),
   new Doctor({
@@ -48,8 +52,10 @@ const allDoctorsMock: Doctor[] = [
     district: 'Nossa Senhora de Nazaré',
     public_place: 'Avenida Lima e Silva',
     state: 'RN',
-    specialty: 'Cardiologia clínca',
-    specialty2: 'Cirurgia de tórax',
+    specialty: [
+      { id: 1, name: 'Cardiologia clínca' },
+      { id: 2, name: 'Cirurgia de tórax' },
+    ],
     deletedAt: null,
   }),
 ];
@@ -64,8 +70,10 @@ const bodyToCreateMock: CreateDoctorDto = {
   district: 'Nossa Senhora de Nazaré',
   public_place: 'Avenida Lima e Silva',
   state: 'RN',
-  specialty: 'Cardiologia clínca',
-  specialty2: 'Cirurgia de tórax',
+  specialty: [
+    { id: 1, name: 'Cardiologia clínca' },
+    { id: 2, name: 'Cirurgia de tórax' },
+  ],
   deletedAt: null,
 };
 
@@ -79,8 +87,10 @@ const bodyToUpdateMock: UpdateDoctorDto = {
   district: 'Nossa Senhora de Nazaré',
   public_place: 'Avenida Lima e Silva',
   state: 'RN',
-  specialty: 'Cardiologia clínca',
-  specialty2: 'Cirurgia de tórax',
+  specialty: [
+    { id: 1, name: 'Cardiologia clínca' },
+    { id: 2, name: 'Cirurgia de tórax' },
+  ],
   deletedAt: null,
 };
 
@@ -95,8 +105,10 @@ const newCreatedDoctorMock = new Doctor({
   district: 'Nossa Senhora de Nazaré',
   public_place: 'Avenida Lima e Silva',
   state: 'RN',
-  specialty: 'Cardiologia clínca',
-  specialty2: 'Cirurgia de tórax',
+  specialty: [
+    { id: 1, name: 'Cardiologia clínca' },
+    { id: 2, name: 'Cirurgia de tórax' },
+  ],
   deletedAt: null,
 });
 
@@ -189,7 +201,10 @@ describe('DoctorController', () => {
 
   describe('Controller findByParam', () => {
     it('should find a doctor by param successfully', async () => {
-      const result = await doctorController.findByParam('fulano', 'name');
+      const result = await doctorController.findByParam(
+        { param: 'fulano' },
+        'name',
+      );
 
       expect(result).toEqual(newCreatedDoctorMock);
       expect(doctorService.findByParam).toHaveBeenCalledTimes(1);
@@ -202,7 +217,7 @@ describe('DoctorController', () => {
         .spyOn(doctorService, 'findByParam')
         .mockRejectedValueOnce(new Error());
       expect(
-        doctorController.findByParam('fulano', 'name'),
+        doctorController.findByParam({ param: 'fulano' }, 'name'),
       ).rejects.toThrowError();
       expect(doctorService.findByParam).toHaveBeenCalledTimes(1);
       // expect(doctorService.findByParam).toHaveBeenCalledWith('name', 'fulano');
