@@ -7,7 +7,7 @@ export class Specialty {
   @ApiProperty()
   id: number;
 
-  @Column({ length: 30 })
+  @Column({ length: 30, default: null })
   @ApiProperty()
   name: string;
 }
