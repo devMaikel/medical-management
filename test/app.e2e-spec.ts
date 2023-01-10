@@ -79,12 +79,12 @@ describe('Application routes tests e2e', () => {
     describe('route "doctor/searchby/:searchBy" (GET) (search by param)', () => {
       it('searching by public place', async () => {
         const response = await request(app.getHttpServer())
-          .get('/doctor/searchby/public_place?param=Rua Bianor Medeiros')
+          .get('/doctor/searchby/public_place?param=Avenida Amintas Barros')
           .expect(200);
         expect(response.body[0]).toHaveProperty('name');
         expect(response.body[0]).toHaveProperty('crm');
         expect(response.body[0]).toHaveProperty('id');
-        expect(response.body[0].public_place).toEqual('Rua Bianor Medeiros');
+        expect(response.body[0].public_place).toEqual('Avenida Amintas Barros');
       });
     });
 
@@ -139,12 +139,12 @@ describe('Application routes tests e2e', () => {
           const response = await request(app.getHttpServer())
             .post('/specialty')
             .send({
-              name: 'Cirurgia cardíaca',
+              name: 'TestingData',
             })
             .expect(201);
           expect(response.body).toHaveProperty('name');
           expect(response.body).toHaveProperty('id');
-          expect(response.body.name).toEqual('Cirurgia cardíaca');
+          expect(response.body.name).toEqual('TestingData');
         });
       });
     });
