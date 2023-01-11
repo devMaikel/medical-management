@@ -39,7 +39,7 @@ export class testGambiarra {
         await console.log(`${index}0% Concluído . . .`);
       }
     } else {
-      console.log('Tabela já povoada, favor reiniciar o banco de dados!');
+      console.log('Tabela incompatível. Favor reiniciar o banco de dados!');
       return 0;
     }
     console.log('Specialty OK!');
