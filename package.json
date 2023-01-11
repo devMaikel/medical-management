@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "seed": "ts-node ./src/database/seeding/seeds/initialSeed.ts seed",
-    "seedGambiarra": "ts-node ./src/database/seeding/seeds/seedGambiarra.ts"
+    "seedAlternativo": "ts-node ./src/database/seeding/seeds/seedGambiarra.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
